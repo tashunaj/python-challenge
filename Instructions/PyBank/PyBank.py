@@ -15,27 +15,30 @@ total_Profit_Losses = 0
 
 with open(in_file) as revenue_data:
     reader = csv.DictReader(revenue_data)
+    header = next(reader)
+    # first_row = next(reader)
+    # total_months += 1
+    # total_Profit_Losses = total_Profit_Losses + int(first_row["Profit/Losses"])
+    # previous_revenue = int(first_row["Profit/Losses"])
 
-
-    
     for row in reader:
-        int(row["Profit/Losses"])
+        # int(row["Profit/Losses"])
    
-    total_months = total_months + 1
-    total_Profit_Losses = total_Profit_Losses + int(row["Profit/Losses"])
+        total_months += 1
+        total_Profit_Losses = total_Profit_Losses + int(row["Profit/Losses"])
 
-    revenue_change = int(row["Profit/Losses"]) - previous_revenue
-    previous_revenue = ["Profit/Losses"]
-    revenue_change_list = revenue_change_list +[revenue_change]
-    month_of_change = month_of_change + ["Data"]
+        revenue_change = int(row["Profit/Losses"]) - previous_revenue
+        previous_revenue = int(row["Profit/Losses"])
+        revenue_change_list += [revenue_change]
+        month_of_change += [row["Date"]]
 
-    if (revenue_change > greatest_increase[1]):
-        greatest_increase[0] = row["Date"]
-        greatest_increase[1] = revenue_change_list
+        if (revenue_change > greatest_increase[1]):
+            greatest_increase[0] = row["Date"]
+            greatest_increase[1] = revenue_change
 
-    if (revenue_change < greatest_decrease[1]):
-        greatest_decrease[0] = row["Date"] 
-        greatest_decrease[1] = revenue_change   
+        if (revenue_change < greatest_decrease[1]):
+            greatest_decrease[0] = row["Date"] 
+            greatest_decrease[1] = revenue_change   
 
 revenue_avg = sum(revenue_change_list)/ len(revenue_change_list)
 
@@ -52,5 +55,5 @@ output =  (f"/nFinancial Analysis\n",
 print(output)
 
 with open(out_file, "w")  as txt_file:
-    txt_file.write('output')
+    txt_file.write(output)
     
